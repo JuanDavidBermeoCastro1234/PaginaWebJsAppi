@@ -1,22 +1,4 @@
-// import { Mostrarresultados,obtenerDatos } from "./main";
-
-// const search = document.querySelector("#search");
-// search.addEventListener('click',filtrados)
-
-// obtenerDatos()
-
-// async function filtrados(){
-//     const response = await fetch(url);
-//     const data = await response.json();
-
-//     const filtrar = data.filter(item =>
-//         item.name && item.name.toLowerCase().includes("apple")
-//     );
-// }
-
-// /*/////////////////*/
-
-import { mostrarTop, detenerIntervalo } from "./main.js";
+import {detenerIntervalo } from "./main.js";
 
 const input = document.querySelector("#searchInput");
 const button = document.querySelector("#search");
@@ -69,3 +51,5 @@ const mostrarResultadosFiltrados = (data) => {
         container.appendChild(div);
     });
 };
+
+export {mostrarResultadosFiltrados}
