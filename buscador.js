@@ -16,7 +16,8 @@ async function buscarAccion() {
     // Detener las actualizaciones automáticas
     detenerIntervalo();
 
-    const url = `https://financialmodelingprep.com/api/v3/search?query=${texto}&apikey=stHIvvuH0NAkvTB1RDAlLDZFwSCS8BOy`;
+    const url = "https://financialmodelingprep.com/api/v3/stock-screener?limit=150&apikey=fdIy9mtUHCm8rQOxO0xicwv3WLuta7w5";
+    
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -42,10 +43,10 @@ const mostrarResultadosFiltrados = (data) => {
         div.classList.add("card");
 
         div.innerHTML = `
-            <h2>${item.name}</h2>
-            <p><strong>Simbolo:</strong> ${item.symbol}</p>
-            <p><strong>Tipo:</strong> ${item.type || "N/A"}</p>
-            <p><strong>Region:</strong> ${item.region || "N/A"}</p>
+        <h2>${item.companyName || item.symbol}</h2>
+        <p><strong>Simbolo:</strong> ${item.symbol}</p>
+        <p><strong>Precio:</strong> $${item.price}</p>
+        <p><strong>Sector:</strong> ${item.sector || "N/A"}</p>
         `;
 
         container.appendChild(div);
