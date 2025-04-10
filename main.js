@@ -42,7 +42,7 @@ const mostrarTop = (acciones) => {
 
 const iniciarIntervalo = () => {
     obtenerTopAcciones(); // primera vez
-    intervalID = setInterval(obtenerTopAcciones, 20000); // cada 20 seg
+    intervalID = (obtenerTopAcciones); // cada 20 seg
 };
 // esto llama la funcon para que ejecute y muestre las tres primeras acciones 
 iniciarIntervalo()

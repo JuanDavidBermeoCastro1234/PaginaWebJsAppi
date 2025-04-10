@@ -6,29 +6,49 @@ const button = document.querySelector("#search");
 button.addEventListener("click", buscarAccion);
 
 async function buscarAccion() {
+    // Detener las actualizaciones automáticas
+    detenerIntervalo();
     const texto = input.value.trim().toUpperCase();
+
 
     if (texto === "") {
         alert("Escribe un símbolo o nombre para buscar");
         return;
+
     }
-
-    // Detener las actualizaciones automáticas
-    detenerIntervalo();
-
-    const url = "https://financialmodelingprep.com/api/v3/stock-screener?limit=150&apikey=fdIy9mtUHCm8rQOxO0xicwv3WLuta7w5";
+    mostrarResultadosFiltrados(topAccion);
     
     try {
-        const response = await fetch(url);
-        const data = await response.json();
+    
+    let url = `https://financialmodelingprep.com/api/v3/stock-screener?limit=150&companyName=${texto}&apikey=fdIy9mtUHCm8rQOxO0xicwv3WLuta7w5`;
 
-        if (data.length === 0) {
+    let response = await fetch(url);
+    let data = await response.json();
+
+    if(data.length===0){
+
+        
+        url = "https://financialmodelingprep.com/api/v3/stock-screener?limit=150&apikey=fdIy9mtUHCm8rQOxO0xicwv3WLuta7w5";
+        
+        response = await fetch(url);
+        data = await response.json();
+        
+        
+        const resultadosFiltrados = data.filter(item =>
+            item.symbol.toUpperCase().includes(texto) ||
+            (item.companyName && item.companyName.toUpperCase().includes(texto))
+        );
+    
+        // 
+        if (resultadosFiltrados.length === 0) {
             document.querySelector("#resultado").innerHTML = `<p>No se encontraron resultados.</p>`;
             return;
         }
-
-        mostrarResultadosFiltrados(data);
-
+    }
+    const topAcciones = resultadosFiltrados.sort((a, b) => b.price - a.price);
+        
+        mostrarResultadosFiltrados(topAcciones);
+        
     } catch (error) {
         console.log("Error buscando accion:", error.message);
     }
@@ -39,17 +59,17 @@ const mostrarResultadosFiltrados = (data) => {
     container.innerHTML = ""; // limpiar anteriores
 
     data.forEach(item => {
-        const div = document.createElement("div");
-        div.classList.add("card");
+        const card = document.createElement("div");
+        card.classList.add("card");
 
-        div.innerHTML = `
+        card.innerHTML = `
         <h2>${item.companyName || item.symbol}</h2>
         <p><strong>Simbolo:</strong> ${item.symbol}</p>
         <p><strong>Precio:</strong> $${item.price}</p>
         <p><strong>Sector:</strong> ${item.sector || "N/A"}</p>
         `;
 
-        container.appendChild(div);
+        container.appendChild(card);
     });
 };
 
