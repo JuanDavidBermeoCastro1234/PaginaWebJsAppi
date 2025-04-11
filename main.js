@@ -4,7 +4,7 @@ const container = document.querySelector("#resultado");
 let intervalID = null;
 
 const obtenerTopAcciones = async () => {
-    const url = "https://financialmodelingprep.com/api/v3/stock-screener?limit=150&apikey=fdIy9mtUHCm8rQOxO0xicwv3WLuta7w5";
+    const url = "https://financialmodelingprep.com/api/v3/stock-screener?apikey=stHIvvuH0NAkvTB1RDAlLDZFwSCS8BOy";
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -14,7 +14,7 @@ const obtenerTopAcciones = async () => {
         const topAcciones = data
             .filter(item => item.price) // asegurarse que tenga precio
             .sort((a, b) => b.price - a.price)
-            .slice(0, 3);
+            // .slice(0, 6); esto filtra segun mi preferencia solo las 6 primeras si quisiera 
 
         mostrarTop(topAcciones);
 
@@ -42,7 +42,7 @@ const mostrarTop = (acciones) => {
 
 const iniciarIntervalo = () => {
     obtenerTopAcciones(); // primera vez
-    intervalID = (obtenerTopAcciones); // cada 20 seg
+    intervalID = setInterval(obtenerTopAcciones, 20000); 
 };
 // esto llama la funcon para que ejecute y muestre las tres primeras acciones 
 iniciarIntervalo()
@@ -53,27 +53,28 @@ const detenerIntervalo = () => {
     }
 };
 
-export {detenerIntervalo}
+
+export {obtenerTopAcciones,detenerIntervalo}
 
 // tengo todo lo que quieren las wachas
 
 mostrarResultadosFiltrados()
 
-const grafica = document.createElement("div")
-grafica.classList.add("grafica")
+// const grafica = document.createElement("div")
+// grafica.classList.add("grafica")
 
-const codigoEjemplo = `
-const config = {
-  type: 'line',
-  data: data,
-  options: {
-    responsive: true,
-    plugins: {
-      title: {
-        display: true,
-        text: (ctx) => 'Point Style: ' + ctx.chart.data.datasets[0].pointStyle,
-      }
-    }
-  }
-};
-`;
+// const codigoEjemplo = `
+// const config = {
+//   type: 'line',
+//   data: data,
+//   options: {
+//     responsive: true,
+//     plugins: {
+//       title: {
+//         display: true,
+//         text: (ctx) => 'Point Style: ' + ctx.chart.data.datasets[0].pointStyle,
+//       }
+//     }
+//   }
+// };
+// `;
